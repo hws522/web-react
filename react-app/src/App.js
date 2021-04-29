@@ -5,8 +5,8 @@ class Article extends Component {
   render() {
     return (
       <article>
-        <h2>HTML</h2>
-        HTML is HyperText Markup Language.
+        <h2>{this.props.title}</h2>
+        {this.props.desc}
       </article>
     );
   }
@@ -34,8 +34,8 @@ class Subject extends Component {
   render() {
     return (
       <header>
-        <h1>WEB</h1>
-        World Wide Web!
+        <h1>{this.props.title}</h1>
+        {this.props.sub}
       </header>
     );
   }
@@ -45,12 +45,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Subject></Subject>
+        <Subject title="WEB" sub="word wide web!"></Subject>
+        <Subject title="React" sub="For UI"></Subject>
         <Nav></Nav>
-        <Article></Article>
+        <Article title="HTML" desc="HTML is HyperText Markup Language."></Article>
       </div>
     );
   }
 }
+
+// props 를 이용하면, <Subject></Subject> 처럼 사용자정의 태그 같은 것을 만들 수 있다.
+// 리팩토링 과정의 하나이다.
 
 export default App;
