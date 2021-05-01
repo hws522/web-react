@@ -257,3 +257,42 @@ react 입장에서는 바로 값을 바꿔버리는 것을 알 수가 없어서 
 그래서 state 값이 변경될 때에는 반드시 setState 함수로 변경해야 한다.
 
 <br>
+
+### **Component Event**
+
+---
+
+```js
+<Subject
+  title={this.state.subject.title}
+  sub={this.state.subject.sub}
+  onChangePage={function () {
+    alert("hihihi");
+  }.bind(this)}
+></Subject>
+```
+
+여기서 onChangePage 라는 이벤트를 직접 만들었다.
+
+이 이벤트에 함수를 설치해주면 그 이벤트가 발생되었을 때,
+
+```js
+<header>
+  <h1>
+    <a
+      href="/"
+      onClick={function (e) {
+        e.preventDefault();
+        this.props.onChangePage();
+      }.bind(this)}
+    >
+      {this.props.title}
+    </a>
+  </h1>
+  {this.props.sub}
+</header>
+```
+
+props 로 전달된 onChangePage() 함수를 호출하면 되는 것이다.
+
+<br>
