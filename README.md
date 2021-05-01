@@ -225,3 +225,35 @@ bindTest2();
 엄격한 표현은 아니다. 쉽게 이해를 하기 위함이다.
 
 <br>
+
+### **Event 에서 setState 함수**
+
+---
+
+state 값을 직접 변경하지 않고, setState 함수의 형태로 변경해야하는 이유가 있다.
+
+컴포넌트가 생성될 때, 최초로 실행되는 아래와 같은 함수는 바로 수정하면 된다.
+
+```js
+constructor(props) {
+    super(props);
+    this.state = {
+      mode: "read",
+      subject: { title: "WEB", sub: "World Wide Web!" },
+      welcome: { title: "Welcome", desc: "Hello, React!!!" },
+      contents: [
+        { id: 1, title: "HTML", desc: "HTML is HyperText ..." },
+        { id: 2, title: "CSS", desc: "CSS is for design ..." },
+        { id: 3, title: "JavaScript", desc: "JavaScript is for interactive ..." },
+      ],
+    };
+  }
+```
+
+하지만 이미 컴포넌트가 생성된 다음에 동적으로 state 의 값을 변경하는 경우에는 `this.state.mode = 'welcome'` 처럼 바로 수정하면 안된다.
+
+react 입장에서는 바로 값을 바꿔버리는 것을 알 수가 없어서 렌더링 할 수가 없다. state 값이 변경되지 않는 것은 아니나, react 에서는 알 수가 없는 것이다.
+
+그래서 state 값이 변경될 때에는 반드시 setState 함수로 변경해야 한다.
+
+<br>
