@@ -187,3 +187,41 @@ WEB 을 클릭했을 때, mode 를 'welcome' 으로 바꿔 자동으로 'welcome
 하지만 이것만으로는 실행되지 않는다. react 에서는 요구하는 규칙이 있다.
 
 `setState` 를 사용하고 그안에 state 내용을 넣어주면 된다.
+
+<br>
+
+### **Event 에서 bind 함수**
+
+---
+
+<br>
+
+`.bind()`
+
+```js
+var obj = { name: "hws" };
+
+function bindTest() {
+  console.log(this.name);
+}
+
+bindTest();
+
+// 실행결과 : undifined
+```
+
+당연히 undifined 가 나온다. 여기서 this 가 obj 를 가리킬 이유가 없기 때문이다.
+
+```js
+var bindTest2 = bindTest.bind(obj);
+
+bindTest2();
+
+// 실행결과 : hws
+```
+
+위처럼 `.bind(obj)` 를 사용함으로써 bindTest 의 this 를 obj 로 사용하는 새로운 함수가 복제되어 만들어진다.
+
+엄격한 표현은 아니다. 쉽게 이해를 하기 위함이다.
+
+<br>
