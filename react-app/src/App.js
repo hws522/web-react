@@ -10,6 +10,11 @@ class App extends Component {
     super(props);
     this.state = {
       subject: { title: "WEB", sub: "World Wide Web!" },
+      contents: [
+        { id: 1, title: "HTML", desc: "HTML is HyperText ..." },
+        { id: 2, title: "CSS", desc: "CSS is for design ..." },
+        { id: 3, title: "JavaScript", desc: "JavaScript is for interactive ..." },
+      ],
     };
   }
   // state 값을 초기화시키기 위한 과정.
@@ -21,8 +26,8 @@ class App extends Component {
     return (
       <div className="App">
         <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
-        <Subject title="React" sub="For UI"></Subject>
-        <Nav></Nav>
+        {/* <Subject title="React" sub="For UI"></Subject> */}
+        <Nav data={this.state.contents}></Nav>
         <Article title="HTML" desc="HTML is HyperText Markup Language."></Article>
       </div>
     );
