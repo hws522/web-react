@@ -10,6 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
       mode: "read",
+      selected_content_id: 2,
       subject: { title: "WEB", sub: "World Wide Web!" },
       welcome: { title: "Welcome", desc: "Hello, React!!!" },
       contents: [
@@ -33,8 +34,16 @@ class App extends Component {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
     } else if (this.state.mode === "read") {
-      _title = this.state.contents[0].title;
-      _desc = this.state.contents[0].desc;
+      var i = 0;
+      while (i < this.state.contents.length) {
+        var data = this.state.contents[i];
+        if (data.id === this.state.selected_content_id) {
+          _title = data.title;
+          _desc = data.desc;
+          break;
+        }
+        i++;
+      }
     }
 
     return (
@@ -47,7 +56,12 @@ class App extends Component {
           }.bind(this)}
         ></Subject>
 
-        <Nav data={this.state.contents}></Nav>
+        <Nav
+          onChangePage={function (id) {
+            this.setState({ mode: "read", selected_content_id: Number(id) }); // 여기서 받아오는 id 는 문자. 그래서 숫자로 바꿔준다.
+          }.bind(this)}
+          data={this.state.contents}
+        ></Nav>
         <Article title={_title} desc={_desc}></Article>
       </div>
     );
