@@ -10,7 +10,7 @@ class CreateContent extends Component {
           method="post"
           onSubmit={function (e) {
             e.preventDefault(); // 리액트를 이용하여 페이지전환없이 하고싶기에, onSubmit 이 작동했을 때 페이지가 바뀌지 않도록 함.
-            alert("submit!!!");
+            this.props.onSubmit(e.target.title.value, e.target.desc.value);
           }.bind(this)}
         >
           <p>

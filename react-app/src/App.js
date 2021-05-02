@@ -51,7 +51,14 @@ class App extends Component {
       }
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>; //mode 의 값이 read, welcome 일 때, article 은 초기의 ReadContent.
     } else if (this.state.mode === "create") {
-      _article = <CreateContent></CreateContent>;
+      _article = (
+        <CreateContent
+          onSubmit={function (_title, _desc) {
+            // setState 를 통하여 새로운 content 값 추가.
+            console.log(_title, _desc);
+          }.bind(this)}
+        ></CreateContent>
+      );
     }
 
     return (
