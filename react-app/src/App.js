@@ -57,7 +57,7 @@ class App extends Component {
           onSubmit={function (_title, _desc) {
             // setState 를 통하여 새로운 content 값 추가.
             this.max_content_id++;
-            // this.state.contents.push({ id: this.max_content_id, title: _title, desc: _desc });
+            // this.state.contents.push({ id: this.max_content_id, title: _title, desc: _desc }); 이방식은 이후에 퍼포먼스 개선에 불편함을 준다. 직접 원본 데이터에 추가하는것이기 때문.
             var _contents = this.state.contents.concat({ id: this.max_content_id, title: _title, desc: _desc });
             this.setState({
               contents: _contents,
