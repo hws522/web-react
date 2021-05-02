@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import "./App.css";
 import Nav from "./components/nav";
-import Article from "./components/article";
+import ReadContent from "./components/readContent";
+import CreateContent from "./components/createContent";
 import Subject from "./components/subject";
 import Control from "./components/control";
+
 // 유사 자바스크립트이다. 자바스크립트가 아니기 때문에 콘솔창에서는 에러가 뜸. 규칙이 잘 지켜지지 않은 상태다.
 // jsx 인데 이렇게 만든 소스코드를 create-react-app 이 javascript 로 컨버팅해준다고 생각하면 된다.
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: "read",
+      mode: "create",
       selected_content_id: 2,
       subject: { title: "WEB", sub: "World Wide Web!" },
       welcome: { title: "Welcome", desc: "Hello, React!!!" },
@@ -29,11 +31,13 @@ class App extends Component {
   render() {
     // console.log("app render");
     var _title,
-      _desc = null;
+      _desc,
+      _article = null;
 
     if (this.state.mode === "welcome") {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>;
     } else if (this.state.mode === "read") {
       var i = 0;
       while (i < this.state.contents.length) {
@@ -45,6 +49,9 @@ class App extends Component {
         }
         i++;
       }
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>; //mode 의 값이 read, welcome 일 때, article 은 초기의 ReadContent.
+    } else if (this.state.mode === "create") {
+      _article = <CreateContent></CreateContent>;
     }
 
     return (
@@ -72,7 +79,7 @@ class App extends Component {
           }.bind(this)}
         />
 
-        <Article title={_title} desc={_desc}></Article>
+        {_article}
       </div>
     );
   }
