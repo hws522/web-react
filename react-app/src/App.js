@@ -3,6 +3,7 @@ import "./App.css";
 import Nav from "./components/nav";
 import Article from "./components/article";
 import Subject from "./components/subject";
+import Control from "./components/control";
 // 유사 자바스크립트이다. 자바스크립트가 아니기 때문에 콘솔창에서는 에러가 뜸. 규칙이 잘 지켜지지 않은 상태다.
 // jsx 인데 이렇게 만든 소스코드를 create-react-app 이 javascript 로 컨버팅해준다고 생각하면 된다.
 class App extends Component {
@@ -62,6 +63,15 @@ class App extends Component {
           }.bind(this)}
           data={this.state.contents}
         ></Nav>
+
+        <Control
+          onChangeMode={function (_mode) {
+            this.setState({
+              mode: _mode,
+            });
+          }.bind(this)}
+        />
+
         <Article title={_title} desc={_desc}></Article>
       </div>
     );
