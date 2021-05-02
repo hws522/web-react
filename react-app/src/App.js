@@ -11,6 +11,7 @@ import Control from "./components/control";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.max_content_id = 3; // ui 에 영향을 줄 이유가 하등없으므로, state 값으로 지정하지 않는다. 해도 되지만 불필요한 렌더링 발생.
     this.state = {
       mode: "create",
       selected_content_id: 2,
@@ -55,6 +56,12 @@ class App extends Component {
         <CreateContent
           onSubmit={function (_title, _desc) {
             // setState 를 통하여 새로운 content 값 추가.
+            this.max_content_id++;
+            // this.state.contents.push({ id: this.max_content_id, title: _title, desc: _desc });
+            var _contents = this.state.contents.concat({ id: this.max_content_id, title: _title, desc: _desc });
+            this.setState({
+              contents: _contents,
+            });
             console.log(_title, _desc);
           }.bind(this)}
         ></CreateContent>
