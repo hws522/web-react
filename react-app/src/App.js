@@ -14,7 +14,7 @@ class App extends Component {
     super(props);
     this.max_content_id = 3; // ui 에 영향을 줄 이유가 하등없으므로, state 값으로 지정하지 않는다. 해도 되지만 불필요한 렌더링 발생.
     this.state = {
-      mode: "create",
+      mode: "welcome",
       selected_content_id: 2,
       subject: { title: "WEB", sub: "World Wide Web!" },
       welcome: { title: "Welcome", desc: "Hello, React!!!" },
@@ -118,9 +118,28 @@ class App extends Component {
 
         <Control
           onChangeMode={function (_mode) {
-            this.setState({
-              mode: _mode,
-            });
+            if (_mode === "delete") {
+              if (window.confirm("really?")) {
+                var _contents = Array.from(this.state.contents);
+                var i = 0;
+                while (i < _contents.length) {
+                  if (_contents[i].id === this.state.selected_content_id) {
+                    _contents.splice(i, 1);
+                    break;
+                  }
+                  i++;
+                }
+                this.setState({
+                  mode: "welcome",
+                  contents: _contents,
+                });
+                alert("deleted");
+              }
+            } else {
+              this.setState({
+                mode: _mode,
+              });
+            }
           }.bind(this)}
         ></Control>
 
