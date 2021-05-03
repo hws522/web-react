@@ -3,6 +3,7 @@ import "./App.css";
 import Nav from "./components/nav";
 import ReadContent from "./components/readContent";
 import CreateContent from "./components/createContent";
+import UpdateContent from "./components/updateContent";
 import Subject from "./components/subject";
 import Control from "./components/control";
 
@@ -28,9 +29,18 @@ class App extends Component {
   // component 가 실행될 때, constructor 가 있다면 가장 먼저 실행되어 초기화를 담당한다.
   // react 에서는 props 에서 "this.state.subject.title" 로 묶어주면 문자가 된다.
   // 자바스크립트의 코드로서 실행되게 하고싶으면 {} 를 써주면 된다.
-
-  render() {
-    // console.log("app render");
+  getReadContent() {
+    var i = 0;
+    while (i < this.state.contents.length) {
+      var data = this.state.contents[i];
+      if (data.id === this.state.selected_content_id) {
+        return data;
+        break;
+      }
+      i++;
+    }
+  }
+  getContent() {
     var _title,
       _desc,
       _article = null;
@@ -40,17 +50,8 @@ class App extends Component {
       _desc = this.state.welcome.desc;
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>;
     } else if (this.state.mode === "read") {
-      var i = 0;
-      while (i < this.state.contents.length) {
-        var data = this.state.contents[i];
-        if (data.id === this.state.selected_content_id) {
-          _title = data.title;
-          _desc = data.desc;
-          break;
-        }
-        i++;
-      }
-      _article = <ReadContent title={_title} desc={_desc}></ReadContent>; //mode 의 값이 read, welcome 일 때, article 은 초기의 ReadContent.
+      var _content = this.getReadContent();
+      _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>; //mode 의 값이 read, welcome 일 때, article 은 초기의 ReadContent.
     } else if (this.state.mode === "create") {
       _article = (
         <CreateContent
@@ -58,15 +59,45 @@ class App extends Component {
             // setState 를 통하여 새로운 content 값 추가.
             this.max_content_id++;
             // this.state.contents.push({ id: this.max_content_id, title: _title, desc: _desc }); 이방식은 이후에 퍼포먼스 개선에 불편함을 준다. 직접 원본 데이터에 추가하는것이기 때문.
-            var _contents = this.state.contents.concat({ id: this.max_content_id, title: _title, desc: _desc });
+            var _contents = Array.from(this.state.contents);
+            _contents.push({ id: this.max_content_id, title: _title, desc: _desc });
             this.setState({
               contents: _contents,
+              mode: "read",
+              selected_content_id: this.max_content_id,
             });
-            console.log(_title, _desc);
           }.bind(this)}
         ></CreateContent>
       );
+    } else if (this.state.mode === "update") {
+      _content = this.getReadContent();
+      _article = (
+        <UpdateContent
+          data={_content}
+          onSubmit={function (_id, _title, _desc) {
+            var _contents = Array.from(this.state.contents);
+            var i = 0;
+            while (i < _contents.length) {
+              if (_contents[i].id === _id) {
+                _contents[i] = { id: _id, title: _title, desc: _desc };
+                break;
+              }
+              i++;
+            }
+            this.setState({
+              contents: _contents,
+              mode: "read",
+            });
+          }.bind(this)}
+        ></UpdateContent>
+      );
     }
+
+    return _article;
+  }
+
+  render() {
+    // console.log("app render");
 
     return (
       <div className="App">
@@ -91,9 +122,9 @@ class App extends Component {
               mode: _mode,
             });
           }.bind(this)}
-        />
+        ></Control>
 
-        {_article}
+        {this.getContent()}
       </div>
     );
   }
